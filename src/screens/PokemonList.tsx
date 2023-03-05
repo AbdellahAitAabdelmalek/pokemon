@@ -1,3 +1,4 @@
+import {NativeStackScreenProps} from '@react-navigation/native-stack';
 import React from 'react';
 import {
   FlatList,
@@ -5,21 +6,34 @@ import {
   View,
   StyleSheet,
   ActivityIndicator,
+  Pressable,
 } from 'react-native';
 import {Pokemon} from '../Pokemon/services/getPokemonList/types';
 import {useGetPokemonList} from '../Pokemon/services/getPokemonList/useGetPokemonList';
+import {RootStackParamList} from '../RootNavigation';
 
-export const PokemonList = () => {
+type PokemonListProps = NativeStackScreenProps<
+  RootStackParamList,
+  'PokemonList'
+>;
+
+export const PokemonList = ({navigation}: PokemonListProps) => {
   const {pokemonList, isLoading, error, handleLoadMore} = useGetPokemonList({
     pageSize: 20,
   });
 
-  const renderItem = ({item}: {item: Pokemon}) => (
-    <View style={styles.itemContainer}>
-      <Text style={styles.name}>{item.name}</Text>
-      <Text style={styles.id}>#{item.id}</Text>
-    </View>
-  );
+  const renderItem = ({item}: {item: Pokemon}) => {
+    return (
+      <Pressable
+        onPress={() =>
+          navigation.navigate('PokemonDetails', {pokemonId: item.id})
+        }
+        style={styles.itemContainer}>
+        <Text style={styles.name}>{item.name}</Text>
+        <Text style={styles.id}>#{item.id}</Text>
+      </Pressable>
+    );
+  };
 
   const renderFooter = () => {
     if (!isLoading) {
