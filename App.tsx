@@ -5,22 +5,20 @@
  * @format
  */
 
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  useColorScheme,
-} from 'react-native';
+import {PokemonList} from './src/screens/ListePokemons';
+
+const RootStack = createNativeStackNavigator();
 
 function App(): JSX.Element {
-  const isDarkMode = useColorScheme() === 'dark';
-
   return (
-    <SafeAreaView>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScrollView contentInsetAdjustmentBehavior="automatic"></ScrollView>
-    </SafeAreaView>
+    <NavigationContainer>
+      <RootStack.Navigator>
+        <RootStack.Screen name="PokemonList" component={PokemonList} />
+      </RootStack.Navigator>
+    </NavigationContainer>
   );
 }
 
