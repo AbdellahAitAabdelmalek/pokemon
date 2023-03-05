@@ -26,3 +26,9 @@ cd ios && pod install
 yarn ios
 yarn android
 ```
+
+2. Run tests
+
+```sh
+yarn test
+```
