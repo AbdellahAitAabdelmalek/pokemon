@@ -11,6 +11,8 @@ import {
 } from '@testing-library/react-native';
 import axios from 'axios';
 
+const mockNavigate = jest.fn();
+
 jest.mock('axios');
 
 const mockedAxiosGet = axios.get as jest.MockedFunction<typeof axios.get>;
@@ -94,6 +96,8 @@ describe('useGetPokemonList', () => {
     mockFetchRawPokemon(rawPokemonListPage1);
     mockFetchRawPokemon(rawPokemonListPage2);
 
+    // no need to have navigation arguments
+    // @ts-ignore
     render(<PokemonList />);
 
     const flatList = screen.getByTestId('pokemon-list');
@@ -143,5 +147,31 @@ describe('useGetPokemonList', () => {
 
     // should not call axios 3rd time
     await waitFor(() => expect(mockedAxiosGet).toBeCalledTimes(2));
+  });
+
+  it(`should 
+  - renders the fist page of a list of Pokemon
+  - navigate to pokemonDetails with the right pokemonId`, async () => {
+    mockFetchRawPokemon(rawPokemonListPage1);
+    mockFetchRawPokemon(rawPokemonListPage2);
+
+    // no need to have navigation arguments
+    // @ts-ignore
+    render(<PokemonList navigation={{navigate: mockNavigate}} />);
+
+    expect(mockedAxiosGet).toBeCalledTimes(1);
+    expect(mockedAxiosGet).toHaveBeenCalledWith(
+      'https://pokeapi.co/api/v2/pokemon?offset=0&limit=20',
+    );
+
+    const FourthPokemon = await waitFor(() =>
+      screen.getByText('pokemonPage1_4'),
+    );
+    expect(FourthPokemon).toBeTruthy();
+
+    fireEvent.press(FourthPokemon);
+
+    expect(mockNavigate).toBeCalledTimes(1);
+    expect(mockNavigate).toBeCalledWith('PokemonDetails', {pokemonId: 4});
   });
 });
