@@ -14,8 +14,6 @@ export const PokemonList = () => {
     pageSize: 20,
   });
 
-  console.log('pokemonList', pokemonList.length);
-
   const renderItem = ({item}: {item: Pokemon}) => (
     <View style={styles.itemContainer}>
       <Text style={styles.name}>{item.name}</Text>
