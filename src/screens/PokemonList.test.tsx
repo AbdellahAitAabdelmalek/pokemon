@@ -1,6 +1,6 @@
 import React from 'react';
 
-import {PokemonList} from './ListePokemons';
+import {PokemonList} from './PokemonList';
 
 import {
   act,
