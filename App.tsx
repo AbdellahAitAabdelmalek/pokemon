@@ -5,21 +5,11 @@
  * @format
  */
 
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import React from 'react';
-import {PokemonList} from './src/screens/PokemonList';
-
-const RootStack = createNativeStackNavigator();
+import {RootNavigation} from './src/RootNavigation';
 
 function App(): JSX.Element {
-  return (
-    <NavigationContainer>
-      <RootStack.Navigator>
-        <RootStack.Screen name="PokemonList" component={PokemonList} />
-      </RootStack.Navigator>
-    </NavigationContainer>
-  );
+  return <RootNavigation />;
 }
 
 export default App;
